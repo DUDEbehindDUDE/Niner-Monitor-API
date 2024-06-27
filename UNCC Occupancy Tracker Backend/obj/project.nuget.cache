@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "c+hVMCYyTrByFfp1S9enE7cwcdEbTkQfAg/4TOCa0ctZjjenU6ALYw0ry9IZ56CttuXw+k4X31fl/z5LeH6VtA==",
+  "success": true,
+  "projectFilePath": "/home/sussy/git/UNCC Occupancy Tracker Backend/UNCC Occupancy Tracker Backend/UNCC Occupancy Tracker Backend.csproj",
+  "expectedPackageFiles": [
+    "/home/sussy/.nuget/packages/microsoft.aspnetcore.openapi/8.0.5/microsoft.aspnetcore.openapi.8.0.5.nupkg.sha512",
+    "/home/sussy/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/sussy/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/home/sussy/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "/home/sussy/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "/home/sussy/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "/home/sussy/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

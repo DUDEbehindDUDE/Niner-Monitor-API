@@ -1,0 +1,6 @@
+@UNCC_Occupancy_Tracker_Backend_HostAddress = http://localhost:5096
+
+GET {{UNCC_Occupancy_Tracker_Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
