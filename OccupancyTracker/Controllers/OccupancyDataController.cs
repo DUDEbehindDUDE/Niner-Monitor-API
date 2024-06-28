@@ -1,5 +1,7 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using OccupancyTracker.Models;
+using OccupancyTracker.Services;
 
 namespace OccupancyTracker.Controllers
 {
@@ -7,17 +9,22 @@ namespace OccupancyTracker.Controllers
   [Route("api/[controller]")]
   public class OccupancyDataController : ControllerBase
   {
-    [HttpGet("currentoccupancydata")]
-    public OccupancyData GetOccupancyData()
+
+    [HttpGet("CurrentOccupancyData")]
+    public async Task<OccupancyData> GetOccupancyData()
     {
-      int currentSoVi = Random.Shared.Next(400);
-      int current704 = Random.Shared.Next(400);
+      var service704 = await Social704DataService.GetInstance();
+      var serviceSoVi = await SoViDataService.GetInstance();
 
-      var data = new OccupancyData(DateTime.Now, new LocationData
+      var dining = new DiningData
       (
-          new DiningData(currentSoVi, 400, current704, 400)
-      ));
+          serviceSoVi.Occupants,
+          serviceSoVi.MaxOccupants,
+          service704.Occupants,
+          service704.MaxOccupants
+      );
 
+      OccupancyData data = new(DateTime.Now, new LocationData(dining));
       return data;
     }
   }
