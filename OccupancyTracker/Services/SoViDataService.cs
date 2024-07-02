@@ -36,30 +36,29 @@ namespace OccupancyTracker.Services
 
     private async Task Connect()
     {
-      _socket.OnConnected += (sender, e) => Console.WriteLine("Connected to the Socket.IO server.");
-      _socket.OnDisconnected += (sender, e) => Console.WriteLine("Disconnected from the Socket.IO server.");
-      _socket.OnReconnectAttempt += (sender, e) => Console.WriteLine("Attempting to reconnect...");
-      _socket.OnError += (sender, e) => Console.WriteLine($"Socket.IO error: {e}");
+      _socket.OnConnected += (sender, e) => Console.WriteLine("Connected to the Socket.IO server for SoVi.");
+      _socket.OnDisconnected += (sender, e) => Console.WriteLine("Disconnected from the Socket.IO server for SoVi.");
+      _socket.OnReconnectAttempt += (sender, e) => Console.WriteLine("Attempting to reconnect to the Socket.IO Server for SoVi...");
+      _socket.OnError += (sender, e) => Console.WriteLine($"SoVi Socket.IO error: {e}");
 
       _socket.On("manualoccupancy:data", response =>
       {
         string data = response.GetValue<object>().ToString()!;
         var formattedData = JsonSerializer.Deserialize<DiningSocketResponse>(data);
-        if (formattedData?.occupants != null)
+        if (formattedData?.Occupants != null)
         {
-          Occupants = (int)formattedData.occupants;
+          Occupants = (int)formattedData.Occupants;
           Console.WriteLine("Current SoVi Occupants: " + Occupants);
         };
       });
       _socket.On("manualoccupancy:spaceupdate", response =>
       {
-        Console.WriteLine("SoVi Size: " + response);
-        // string data = response.GetValue<object>().ToString()!;
-        // var formattedData = JsonSerializer.Deserialize<DiningSocketResponse>(data);
-        // if (formattedData?.occupants != null) {
-        //   Occupants = (int)formattedData.occupants;
-        //   Console.WriteLine("Current Social 704 Size: " + MaxOccupants);
-        // };
+        string data = response.GetValue<object>().ToString()!;
+        var deserialized = JsonSerializer.Deserialize<SpaceResponse>(data);
+        if (deserialized?.Space?.MaxCapacity != null) {
+          MaxOccupants = deserialized.Space.MaxCapacity;
+          Console.WriteLine("Max SoVi Occupants: " + MaxOccupants);
+        }
       });
 
 

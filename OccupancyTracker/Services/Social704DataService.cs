@@ -34,29 +34,28 @@ namespace OccupancyTracker.Services
 
     private async Task Connect()
     {
-      _socket.OnConnected += (sender, e) => Console.WriteLine("Connected to the Socket.IO server.");
-      _socket.OnDisconnected += (sender, e) => Console.WriteLine("Disconnected from the Socket.IO server.");
-      _socket.OnReconnectAttempt += (sender, e) => Console.WriteLine("Attempting to reconnect...");
-      _socket.OnError += (sender, e) => Console.WriteLine($"Socket.IO error: {e}");
+      _socket.OnConnected += (sender, e) => Console.WriteLine("Connected to the Socket.IO server for Social 704.");
+      _socket.OnDisconnected += (sender, e) => Console.WriteLine("Disconnected from the Socket.IO server for Social 704.");
+      _socket.OnReconnectAttempt += (sender, e) => Console.WriteLine("Attempting to reconnect to the Socket.IO Server for Social 704...");
+      _socket.OnError += (sender, e) => Console.WriteLine($"Social 704 Socket.IO error: {e}");
       
       _socket.On("manualoccupancy:data", response =>
       {
         string data = response.GetValue<object>().ToString()!;
-        var formattedData = JsonSerializer.Deserialize<DiningSocketResponse>(data);
-        if (formattedData?.occupants != null) {
-          Occupants = (int)formattedData.occupants;
+        var deserialized = JsonSerializer.Deserialize<DiningSocketResponse>(data);
+        if (deserialized?.Occupants != null) {
+          Occupants = (int)deserialized.Occupants;
           Console.WriteLine("Current Social 704 Occupants: " + Occupants);
         };
       });
       _socket.On("manualoccupancy:spaceupdate", response =>
       {
-        Console.WriteLine("704 Size: " + response);
-        // string data = response.GetValue<object>().ToString()!;
-        // var formattedData = JsonSerializer.Deserialize<DiningSocketResponse>(data);
-        // if (formattedData?.occupants != null) {
-        //   Occupants = (int)formattedData.occupants;
-        //   Console.WriteLine("Current Social 704 Size: " + MaxOccupants);
-        // };
+        string data = response.GetValue<object>().ToString()!;
+        var deserialized = JsonSerializer.Deserialize<SpaceResponse>(data);
+        if (deserialized?.Space?.MaxCapacity != null) {
+          MaxOccupants = deserialized.Space.MaxCapacity;
+          Console.WriteLine("Max 704 Occupants: " + MaxOccupants);
+        }
       });
 
       _socket.OnConnected += async (sender, e) =>
