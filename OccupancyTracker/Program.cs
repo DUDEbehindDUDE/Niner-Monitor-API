@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using log4net;
 using OccupancyTracker.Services;
 
@@ -6,7 +7,7 @@ using OccupancyTracker.Services;
 internal class Program
 {
 	private static readonly ILog log = LogManager.GetLogger(typeof(Program));
-	private static async Task Main(string[] args)
+	private static void Main(string[] args)
 	{
 
 		var builder = WebApplication.CreateBuilder(args);
@@ -32,16 +33,15 @@ internal class Program
 		app.UseAuthorization();
 		app.MapControllers();
 
-		await InitializeServices();
+		InitializeServices();
 		app.Run();
 	}
 
-	static async Task InitializeServices()
+	static void InitializeServices()
 	{
-		log.Debug("Initializing services...");
-		await Social704DataService.GetInstance();
-		await SoViDataService.GetInstance();
-		await ParkingDataService.GetInstance();
-		log.Debug("Done initializing services!");
+		log.Debug("Initializing services");
+		_ = Social704DataService.GetInstance();
+		_ = SoViDataService.GetInstance();
+		_ = ParkingDataService.GetInstance();
 	}
 }

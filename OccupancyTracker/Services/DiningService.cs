@@ -23,7 +23,8 @@ namespace OccupancyTracker.Services
 			var socketOptions = new SocketIOClient.SocketIOOptions
 			{
 				Path = "/veart/socket.io",
-				EIO = EngineIO.V3
+				EIO = EngineIO.V3,
+				ReconnectionDelay = 5000
 			};
 			_socket = new SocketIOClient.SocketIO(url, socketOptions);
 		}
