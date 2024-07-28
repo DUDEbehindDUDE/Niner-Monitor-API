@@ -43,5 +43,6 @@ internal class Program
 		_ = Social704DataService.GetInstance();
 		_ = SoViDataService.GetInstance();
 		_ = ParkingDataService.GetInstance();
+		_ = AdkinsService.GetInstance();
 	}
 }
