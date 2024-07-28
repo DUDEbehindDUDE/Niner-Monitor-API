@@ -15,6 +15,7 @@ namespace OccupancyTracker.Controllers
     {
       var service704 = await Social704DataService.GetInstance();
       var serviceSoVi = await SoViDataService.GetInstance();
+      var serviceParking = await ParkingDataService.GetInstance();
 
       var dining = new DiningData
       (
@@ -23,8 +24,9 @@ namespace OccupancyTracker.Controllers
           service704.Occupants,
           service704.MaxOccupants
       );
+      var parking = serviceParking.ParkingData;
 
-      OccupancyData data = new(DateTime.Now, new LocationData(dining));
+      OccupancyData data = new(DateTime.Now, new LocationData(dining, parking));
       return data;
     }
   }
