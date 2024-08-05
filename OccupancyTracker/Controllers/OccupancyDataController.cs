@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
 using OccupancyTracker.Models;
 using OccupancyTracker.Services;
 
@@ -15,7 +16,7 @@ namespace OccupancyTracker.Controllers
 			var service704 = await Social704DataService.GetInstance();
 			var serviceSoVi = await SoViDataService.GetInstance();
 			var serviceParking = await ParkingDataService.GetInstance();
-			var serviceAdkins = AdkinsService.GetInstance();
+			var serviceAtkins = AtkinsService.GetInstance();
 
 			var dining = new DiningData
 			(
@@ -24,11 +25,33 @@ namespace OccupancyTracker.Controllers
 					service704.Occupants,
 					service704.MaxOccupants
 			);
-			var adkinsOccupancy = serviceAdkins.Occupants;
+
+			var openLabel = serviceAtkins.TodayHoursData?.TimeLabel ?? "Closed Today";
+			var atkinsData = new AtkinsData
+			(
+				serviceAtkins.Occupants,
+				serviceAtkins.Open,
+				openLabel,
+				serviceAtkins.LastRefresh
+			);
 			var parking = serviceParking.ParkingData;
 
-			OccupancyData data = new(DateTime.Now, new LocationData(dining, adkinsOccupancy, parking));
+			OccupancyData data = new(DateTime.Now, new LocationData(dining, atkinsData, parking));
 			return data;
+		}
+
+		[HttpGet("HistoricalOccupancyData")]
+		public ActionResult<List<HistoricalData<object>>> GetHistoricalOccupancyData([FromQuery] string item)
+		{
+			var sampleService = OccupancySamplingService.GetInstance();
+
+			return item.ToLower() switch
+			{
+				"dining" => Ok(sampleService.DiningDatas),
+				"atkins" => Ok(sampleService.AtkinsDatas),
+				"parking" => Ok(sampleService.ParkingDatas),
+				_ => NotFound("No data exists for this item!")
+			};
 		}
 	}
 }
